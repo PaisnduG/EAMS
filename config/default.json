@@ -1,0 +1,4 @@
+{
+	"mongoURI": "mongodb+srv://Sparta:Sparta123@eamsapp.f7q0x.mongodb.net/<dbname>?retryWrites=true&w=majority",
+	"jwtSecret": "eamssecrettoken"
+}
