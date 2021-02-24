@@ -2,6 +2,5 @@
 	"mongoURI": "mongodb+srv://Sparta:Sparta123@eamsapp.f7q0x.mongodb.net/<dbname>?retryWrites=true&w=majority",
 	"jwtSecret": "eamssecrettoken",
 	"githubClientId": "b6afdb83bcbd92c46a91",
-	"githubSecret": "a5aca7f88cc900b0bb5f6e3aabe4f60444361106",
-	"sadas": "sdaa"
+	"githubSecret": "a5aca7f88cc900b0bb5f6e3aabe4f60444361106"
 }
