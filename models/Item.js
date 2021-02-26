@@ -30,7 +30,7 @@ const ItemSchema = new mongoose.Schema({
 	avatar: {
 		type: String,
 	},
-	whishlist: [
+	wishlists: [
 		{
 			user: {
 				type: mongoose.Schema.Types.ObjectId,

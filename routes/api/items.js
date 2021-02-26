@@ -108,4 +108,69 @@ router.delete('/:id', auth, async (req, res) => {
 		res.status(500).send('Server Error');
 	}
 });
+
+// @route  PUT api/items/wishlist/:id
+// @desc   Add a item to wishlist
+// @access Private
+router.put('/wishlist/:id', auth, async (req, res) => {
+	try {
+		const item = await Item.findById(req.params.id);
+
+		// Check if the item already has been added to wishlist
+		if (
+			item.wishlists.filter(
+				wishlist => wishlist.user.toString() === req.user.id
+			).length > 0
+		) {
+			return res
+				.status(400)
+				.json({ msg: 'Item already added to your wishlist' });
+		}
+
+		// Add user id to wishlisted array
+		item.wishlists.unshift({ user: req.user.id });
+
+		await item.save();
+
+		res.json(item.wishlists);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
+// @route  PUT api/items/unwishlist/:id
+// @desc   Remove a item from wishlist
+// @access Private
+router.put('/unwishlist/:id', auth, async (req, res) => {
+	try {
+		const item = await Item.findById(req.params.id);
+
+		// Check if the item already has been added to wishlist
+		if (
+			item.wishlists.filter(
+				wishlist => wishlist.user.toString() === req.user.id
+			).length === 0
+		) {
+			return res
+				.status(400)
+				.json({ msg: 'Item has not yet been added to your wishlist' });
+		}
+
+		// Remove user id from wishlists array
+		const removeIndex = item.wishlists
+			.map(wishlist => wishlist.user.toString())
+			.indexOf(req.user.id);
+
+		item.wishlists.splice(removeIndex, 1);
+
+		await item.save();
+
+		res.json(item.wishlists);
+	} catch (err) {
+		console.error(err.message);
+		res.status(500).send('Server Error');
+	}
+});
+
 module.exports = router;
