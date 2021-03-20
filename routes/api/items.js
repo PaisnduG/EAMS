@@ -19,7 +19,7 @@ router.post(
 		auth,
 		[
 			check('itemName', 'Item name is required').not().isEmpty(),
-			check('type', 'Type is required').not().isEmpty(),
+			check('category', 'Category is required').not().isEmpty(),
 			check('price', 'Price is required').not().isEmpty(),
 		],
 	],
@@ -35,7 +35,7 @@ router.post(
 
 			const newItem = new Item({
 				itemName: req.body.itemName,
-				type: req.body.type,
+				category: req.body.category,
 				price: req.body.price,
 				userName: user.name,
 				avatar: user.avatar,
