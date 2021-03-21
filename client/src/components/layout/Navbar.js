@@ -43,9 +43,18 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 					<i className='fas fa-warehouse'></i> EAMS
 				</Link>
 			</h1>
+			<h1>
+				<Link to='/product'>
+					 Products
+				</Link>
+			</h1>
+			
 			{!loading && (
 				<Fragment>{isAuthenticated ? authLink : guestLink}</Fragment>
+
 			)}
+
+
 		</nav>
 	);
 };
