@@ -4,7 +4,7 @@ import auth from './auth';
 import profile from './profile';
 
 export default combineReducers({
-	alert,
-	auth,
-	profile,
+  alert,
+  auth,
+  profile,
 });

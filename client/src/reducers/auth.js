@@ -9,10 +9,10 @@ import {
   LOGGIN_SUCCESS,
   LOGGIN_FAIL,
   LOGOUT,
-} from "../action/type";
+} from '../action/type';
 
 const initialState = {
-  token: localStorage.getItem("token"),
+  token: localStorage.getItem('token'),
   isAuthenticated: false,
   isAdmin: false,
   isEmployee: false,
@@ -58,7 +58,7 @@ export default function (state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGGIN_SUCCESS:
-      localStorage.setItem("token", payload.token);
+      localStorage.setItem('token', payload.token);
       return {
         ...state,
         ...payload,
@@ -69,7 +69,7 @@ export default function (state = initialState, action) {
     case AUTH_ERROR:
     case LOGGIN_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
