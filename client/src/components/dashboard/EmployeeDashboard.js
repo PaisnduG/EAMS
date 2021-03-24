@@ -6,7 +6,7 @@ import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardActions";
 import { getCurrentProfile } from "../../action/profile";
 
-const AdminDashboard = ({
+const ClientDashboard = ({
   getCurrentProfile,
   auth: { user },
   profile: { loading, profile },
@@ -14,11 +14,12 @@ const AdminDashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
+
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className='large'>Admin's Dashboard</h1>
+      <h1 className='large text-primary'>Employee's Dashboard</h1>
       <p className='lead'>
         <i className='fas fa-user' /> Welcome {user && user.name}
       </p>
@@ -38,7 +39,7 @@ const AdminDashboard = ({
   );
 };
 
-AdminDashboard.propTypes = {
+ClientDashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
@@ -49,4 +50,4 @@ const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { getCurrentProfile })(AdminDashboard);
+export default connect(mapStateToProps, { getCurrentProfile })(ClientDashboard);

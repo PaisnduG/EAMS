@@ -1,0 +1,7 @@
+/*sideNav*/
+.SideNav {
+  height: 600px;
+  width: 250px;
+  background-color: rgb(50, 50, 50) !important;
+  color: rgb(255, 255, 255);
+}

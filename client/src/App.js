@@ -7,12 +7,14 @@ import Login from "./components/auth/Login";
 import Alert from "./components/layout/Alert";
 import ClientDashboard from "./components/dashboard/ClientDashboard";
 import AdminDashboard from "./components/dashboard/AdminDashboard";
+import EmployeeDashboard from "./components/dashboard/EmployeeDashboard";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import EditProfile from "./components/profile-forms/EditProfile";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AdminRoute from "./components/routing/AdminRoute";
 import ClientRoute from "./components/routing/ClientRoute";
 import EmployeeRoute from "./components/routing/EmployeeRoute";
+import SideNav from "./components/SideNav/SideNav";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -39,6 +41,7 @@ const App = () => {
           <section className='container'>
             <Alert />
             <Switch>
+              <Route exact path='/sidebar' component={SideNav} />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
               <ClientRoute
@@ -50,6 +53,11 @@ const App = () => {
                 exact
                 path='/admin-dashboard'
                 component={AdminDashboard}
+              />
+              <EmployeeRoute
+                exact
+                path='/employee-dashboard'
+                component={EmployeeDashboard}
               />
               <PrivateRoute
                 exact
