@@ -1,11 +1,12 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require('express-validator/check');
-const auth = require('../../middleware/auth');
+const { check, validationResult } = require("express-validator/check");
+const auth = require("../../middleware/auth");
+const isAdmin = require("../../middleware/isAdmin");
 
-const Item = require('../../models/Item');
-const Profile = require('../../models/Profile');
-const User = require('../../models/User');
+const Item = require("../../models/Item");
+const Profile = require("../../models/Profile");
+const User = require("../../models/User");
 
 // @route  POST api/items
 // @desc   Add a Item
@@ -14,15 +15,16 @@ const User = require('../../models/User');
 // @to-do authentication admin only
 // for now any logged in user can add a item
 router.post(
-  '/',
+  "/",
   [
     auth,
     [
-      check('itemName', 'Item name is required').not().isEmpty(),
-      check('category', 'Category is required').not().isEmpty(),
-      check('price', 'Price is required').not().isEmpty(),
+      check("itemName", "Item name is required").not().isEmpty(),
+      check("category", "Category is required").not().isEmpty(),
+      check("price", "Price is required").not().isEmpty(),
     ],
   ],
+  isAdmin,
   async (req, res) => {
     // Error Checking
     const errors = validationResult(req);
@@ -31,7 +33,7 @@ router.post(
     }
 
     try {
-      const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.id).select("-password");
 
       const newItem = new Item({
         itemName: req.body.itemName,
@@ -47,7 +49,7 @@ router.post(
       res.json(item);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send("Server Error");
     }
   }
 );
@@ -55,64 +57,64 @@ router.post(
 // @route  GET api/items
 // @desc   Get all items
 // @access Public
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const items = await Item.find().sort({ date: -1 }); // Most recent items first
     res.json(items);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route  GET api/items/:id
 // @desc   Get Item by ID
 // @access Private
-router.get('/:id', auth, async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
     if (!item) {
-      return res.status(404).json({ msg: 'Item Not Found' });
+      return res.status(404).json({ msg: "Item Not Found" });
     }
 
     res.json(item);
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Item Not Found' });
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Item Not Found" });
     }
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route  DELETE api/items/:id
 // @desc   Delete a item
 // @access Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete("/:id", auth, isAdmin, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
     if (!item) {
-      return res.status(404).json({ msg: 'Item Not Found' });
+      return res.status(404).json({ msg: "Item Not Found" });
     }
 
     await item.remove();
 
-    res.json({ msg: 'Item removed' });
+    res.json({ msg: "Item removed" });
   } catch (err) {
     console.error(err.message);
-    if (err.kind === 'ObjectId') {
-      return res.status(404).json({ msg: 'Item Not Found' });
+    if (err.kind === "ObjectId") {
+      return res.status(404).json({ msg: "Item Not Found" });
     }
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route  PUT api/items/wishlist/:id
 // @desc   Add a item to wishlist
 // @access Private
-router.put('/wishlist/:id', auth, async (req, res) => {
+router.put("/wishlist/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
@@ -124,7 +126,7 @@ router.put('/wishlist/:id', auth, async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ msg: 'Item already added to your wishlist' });
+        .json({ msg: "Item already added to your wishlist" });
     }
 
     // Add user id to wishlisted array
@@ -135,14 +137,14 @@ router.put('/wishlist/:id', auth, async (req, res) => {
     res.json(item.wishlists);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 
 // @route  PUT api/items/unwishlist/:id
 // @desc   Remove a item from wishlist
 // @access Private
-router.put('/unwishlist/:id', auth, async (req, res) => {
+router.put("/unwishlist/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
@@ -154,7 +156,7 @@ router.put('/unwishlist/:id', auth, async (req, res) => {
     ) {
       return res
         .status(400)
-        .json({ msg: 'Item has not yet been added to your wishlist' });
+        .json({ msg: "Item has not yet been added to your wishlist" });
     }
 
     // Remove user id from wishlists array
@@ -169,7 +171,7 @@ router.put('/unwishlist/:id', auth, async (req, res) => {
     res.json(item.wishlists);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send("Server Error");
   }
 });
 

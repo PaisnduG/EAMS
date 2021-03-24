@@ -14,14 +14,13 @@ const ClientDashboard = ({
   useEffect(() => {
     getCurrentProfile();
   }, []);
-
   return loading && profile === null ? (
     <Spinner />
   ) : (
     <Fragment>
-      <h1 className="large text-primary">Client's Dashboard</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Welcome {user && user.name}
+      <h1 className='large text-primary'>Client's Dashboard</h1>
+      <p className='lead'>
+        <i className='fas fa-user' /> Welcome {user && user.name}
       </p>
       {profile !== null ? (
         <Fragment>
@@ -30,7 +29,7 @@ const ClientDashboard = ({
       ) : (
         <Fragment>
           <p>You haven't yet setup a profile, Please add some info</p>
-          <Link to="/create-profile" className="btn btn-primary my-1">
+          <Link to='/create-profile' className='btn btn-primary my-1'>
             Create Profile
           </Link>
         </Fragment>
